@@ -1,11 +1,7 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 import { ANIME } from '@consumet/extensions';
 import { StreamingServers } from '@consumet/extensions/dist/models';
-<<<<<<< HEAD
 import { scrapeDownloadUrl, scrapeGenre } from './gogoanimeAddons'
-=======
-import { scrapeGenre } from './genreParser'
->>>>>>> 6af235b10c4a5463d518516dd49f32e4cfca0089
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const gogoanime = new ANIME.Gogoanime();
@@ -112,7 +108,6 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         const res = await scrapeGenre({ genre: genre, page: page })
         await reply.status(200).send(res)
       } catch {
-        console.log('Scrape Failed!')
         reply
           .status(500)
           .send({ message: "Something went wrong!" })
@@ -128,7 +123,6 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           const res = await scrapeDownloadUrl({ episodeId: id})
           await reply.status(200).send(res)
         } catch {
-          console.log('Scrape Failed!')
           reply
             .status(500)
             .send({ message: "Something went wrong, contact the developers for help!" })
@@ -151,20 +145,6 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       }
     }
   );
-
-  fastify.get(
-    '/gogoanime/genre/:genre',
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      try {
-        const res = await scrapeGenre({ genre: 'cars', page: 1 })
-        await reply.status(200).send(res)
-      } catch {
-        console.log('Scrape Failed!')
-        reply
-          .status(500)
-          .send({ message: "Something went wrong!" })
-        }
-    });
 
   fastify.get(
     '/gogoanime/recent-episodes',

@@ -78,7 +78,6 @@ export const scrapeGenre = async({ list = [], genre, page }) => {
         }
         return { error: 'Genre Not Found' };
     } catch (err) {
-        console.log(err);
         return { error: err };
     }
 };
@@ -97,7 +96,6 @@ export const scrapeDownloadUrl = async({ list = [], episodeId}) => {
             });
             return list;
     } catch (err) {
-        console.log(err);
         return { error: err };
     }
 };
