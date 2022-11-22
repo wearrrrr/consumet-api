@@ -1,6 +1,7 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 import { ANIME } from '@consumet/extensions';
 import { StreamingServers } from '@consumet/extensions/dist/models';
+import { randomShow } from './zoroAddons'
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const zoro = new ANIME.Zoro();
@@ -34,6 +35,19 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       reply.status(200).send(res);
     }
   );
+
+  fastify.get(
+    '/zoro/random',
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      try {
+        const res = await randomShow()
+        await reply.status(200).send(res)
+      } catch {
+        reply
+          .status(500)
+          .send({ message: "Something went wrong!" })
+        }
+  })
 
   fastify.get('/zoro/info', async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.query as { id: string }).id;
